@@ -24,6 +24,7 @@ const eventsAPIs = (function(){
 
 class EventsView {
   constructor(){
+    this.addEventButton = document.querySelector("#addEventButton");
     this.eventList = document.querySelector(".event-list");
   }
 
@@ -60,6 +61,10 @@ class EventsModel {
   setEvents(newEvents){
     this.#events = newEvents;
   }
+
+  addEvent(newEvent){
+    this.#events.push(newEvent);
+  }
 }
 
 class EventsController {
@@ -70,13 +75,22 @@ class EventsController {
   }
 
   init(){
+    this.setUpEvents();
     this.fetchEvents();
+  }
+
+  setUpEvents(){
+    this.setUpCickEvent();
   }
 
   async fetchEvents(){
     const events = await eventsAPIs.getEvents();
     this.model.setEvents(events);
     this.view.renderEvents(events);
+  }
+
+   (){
+
   }
 }
 
