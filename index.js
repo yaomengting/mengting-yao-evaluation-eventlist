@@ -116,6 +116,7 @@ class EventsController {
     this.setUpCickEvent();
     this.setUpDeleteEvent();
     this.setUpEditEvent();
+    this.setUpSaveEvent();
   }
 
   async fetchEvents() {
@@ -168,6 +169,24 @@ class EventsController {
         input.removeAttribute('readonly');
         input.focus();
         eventElem.querySelector('.save-event-btn').style.display = '';
+      }
+    })
+  }
+
+  setUpSaveEvent(){
+    this.view.eventList.addEventListener("click", async (e) => {
+      const elem = e.target;
+      if(elem.classList.contains('save-event-btn')){
+        const eventElem = elem.closest("tr");
+        const eventId = eventElem.getAttribute("id");
+        const input = eventElem.querySelector("input");
+        const updatedName = input.value.trim();
+        if(!updatedName)return;
+        const updatedEvent = await eventsAPIs.patchEvent(eventId, {
+          eventName: updatedName
+        })
+        input.setAttribute('readonly', true);
+        elem.style.display = 'none';
       }
     })
   }
