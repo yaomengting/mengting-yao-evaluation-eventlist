@@ -62,7 +62,7 @@ class EventsView {
     eventElement.classList.add("event");
     eventElement.setAttribute("id", event.id);
     eventElement.innerHTML = `
-    <td><input value="${event.eventName}"></td>
+    <td><input value="${event.eventName}" readonly></td>
     <td>
       <button class="edit-event-btn">Edit</button>
       <button class="save-event-btn" style="display: none;">Save</button>
@@ -115,6 +115,7 @@ class EventsController {
   setUpEvents() {
     this.setUpCickEvent();
     this.setUpDeleteEvent();
+    this.setUpEditEvent();
   }
 
   async fetchEvents() {
@@ -156,6 +157,19 @@ class EventsController {
       }
     })
 
+  }
+
+  setUpEditEvent(){
+    this.view.eventList.addEventListener("click", async (e) => {
+      const elem = e.target;
+      if(elem.classList.contains('edit-event-btn')){
+        const eventElem = elem.closest("tr");
+        const input = eventElem.querySelector('input');
+        input.removeAttribute('readonly');
+        input.focus();
+        eventElem.querySelector('.save-event-btn').style.display = '';
+      }
+    })
   }
 }
 
