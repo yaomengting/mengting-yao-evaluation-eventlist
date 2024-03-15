@@ -15,9 +15,16 @@ const eventsAPIs = (function () {
     }).then((res) => res.json());
   }
 
+  async function deleteEvent(id){
+    return fetch(`${API_URL}/${id}`, {
+      method: "DELETE",
+    }).then((res) => res.json());
+  }
+
   return {
     getEvents,
-    addEvent
+    addEvent,
+    deleteEvent
   };
 
 })();
