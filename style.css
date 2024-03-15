@@ -1,3 +1,4 @@
+
 .addEvent{
   display: flex;
   justify-content: center;
@@ -8,4 +9,19 @@
   padding: 10px 20px;
   border: none;
   border-radius: 10px;
+}
+
+table{
+  width: 100%;
+  border: 3px solid #e6e2d3;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.event{
+  background-color:#e6e2d3;
+}
+
+td {
+  text-align: center; 
 }
