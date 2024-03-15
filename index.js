@@ -165,10 +165,13 @@ class EventsController {
       const elem = e.target;
       if(elem.classList.contains('edit-event-btn')){
         const eventElem = elem.closest("tr");
-        const input = eventElem.querySelector('input');
-        input.removeAttribute('readonly');
+        const eventNameText = eventElem.querySelector('.event-name-text');
+        const input = document.createElement('input');
+        input.value = eventNameText.textContent;
+        eventNameText.parentNode.replaceChild(input, eventNameText);
         input.focus();
         eventElem.querySelector('.save-event-btn').style.display = '';
+        
       }
     })
   }
@@ -182,10 +185,13 @@ class EventsController {
         const input = eventElem.querySelector("input");
         const updatedName = input.value.trim();
         if(!updatedName)return;
-        const updatedEvent = await eventsAPIs.patchEvent(eventId, {
+        await eventsAPIs.patchEvent(eventId, {
           eventName: updatedName
         })
-        input.setAttribute('readonly', true);
+        const eventNameText = document.createElement('span');
+        eventNameText.className = 'event-name-text';
+        eventNameText.textContent = updatedName;
+        input.parentNode.replaceChild(eventNameText, input);
         elem.style.display = 'none';
       }
     })
