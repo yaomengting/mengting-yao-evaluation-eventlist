@@ -28,6 +28,10 @@ class EventsView {
     this.eventList = document.querySelector(".event-list");
   }
 
+  // clearInput(){
+  //   this.
+  // }
+
   renderEvents(events) {
     this.eventList.innerHTML = "";
     events.forEach((event) => {
@@ -103,7 +107,7 @@ class EventsController {
         const newEvent = await eventsAPIs.addEvent({ eventName });
         this.model.addEvent(newEvent);
         this.view.renderNewEvent(newEvent);
-        
+        newEventElement.remove();
       })
     })
 
