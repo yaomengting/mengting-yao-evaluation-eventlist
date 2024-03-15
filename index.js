@@ -21,10 +21,21 @@ const eventsAPIs = (function () {
     }).then((res) => res.json());
   }
 
+  async function patchEvent(id, updatedEventData){
+    return fetch(`${API_URL}/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedEventData), 
+    }).then((res) => res.json());
+  }
+
   return {
     getEvents,
     addEvent,
-    deleteEvent
+    deleteEvent,
+    patchEvent
   };
 
 })();
