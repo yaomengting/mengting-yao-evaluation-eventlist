@@ -62,9 +62,18 @@ class EventsView {
     eventElement.classList.add("event");
     eventElement.setAttribute("id", event.id);
     eventElement.innerHTML = `
-    <td><span class="event-name-text">${event.eventName}</span></td>
-    <td>${event.startDate}</td>
-    <td>${event.endDate}</td>
+    <td>
+      <span class="event-name-text">${event.eventName}</span>
+      <input class="event-name-input" value="${event.eventName}" style="display: none;">
+    </td>
+    <td>
+      <span class="start-date-text">${event.startDate}</span>
+      <input type="date" class="start-date-input" value="${event.startDate}" style="display: none;">
+    </td>
+    <td>
+      <span class="end-date-text">${event.endDate}</span>
+      <input type="date" class="end-date-input" value="${event.endDate}" style="display: none;">
+    </td>
     <td>
       <button class="edit-event-btn">Edit</button>
       <button class="save-event-btn" style="display: none;">Save</button>
@@ -181,13 +190,25 @@ class EventsController {
       const elem = e.target;
       if (elem.classList.contains('edit-event-btn')) {
         const eventElem = elem.closest("tr");
-        const eventNameText = eventElem.querySelector('.event-name-text');
-        const input = document.createElement('input');
-        input.value = eventNameText.textContent;
-        eventNameText.parentNode.replaceChild(input, eventNameText);
-        input.focus();
-        eventElem.querySelector('.save-event-btn').style.display = '';
 
+        const eventNameText = eventElem.querySelector('.event-name-text');
+        const eventNameInput = eventElem.querySelector('.event-name-input');
+        eventNameText.style.display = 'none';
+        eventNameInput.style.display = '';
+
+        const startDateText = eventElem.querySelector('.start-date-text');
+        const startDateInput = eventElem.querySelector('.start-date-input');
+        startDateText.style.display = 'none';
+        startDateInput.style.display = '';
+
+        const endDateText = eventElem.querySelector('.end-date-text');
+        const endDateInput = eventElem.querySelector('.end-date-input');
+        endDateText.style.display = 'none';
+        endDateInput.style.display = '';
+
+        eventElem.querySelector('.save-event-btn').style.display = '';
+        // elem.style.display = 'none';
+        e.target.style.display = 'none';
       }
     })
   }
