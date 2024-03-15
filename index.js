@@ -21,13 +21,13 @@ const eventsAPIs = (function () {
     }).then((res) => res.json());
   }
 
-  async function patchEvent(id, updatedEventData){
+  async function patchEvent(id, updatedEventData) {
     return fetch(`${API_URL}/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(updatedEventData), 
+      body: JSON.stringify(updatedEventData),
     }).then((res) => res.json());
   }
 
@@ -61,7 +61,14 @@ class EventsView {
     const eventElement = document.createElement("tr");
     eventElement.classList.add("event");
     eventElement.setAttribute("id", event.id);
-    eventElement.innerHTML = `<td><input value="${event.eventName}"></td><td><button class="delete-event-btn">Delete</button></td>`;
+    eventElement.innerHTML = `
+    <td><input value="${event.eventName}"></td>
+    <td>
+      <button class="edit-event-btn">Edit</button>
+      <button class="save-event-btn" style="display: none;">Save</button>
+      <button class="delete-event-btn">Delete</button>
+    </td>
+    `;
     return eventElement;
   }
 
@@ -140,7 +147,7 @@ class EventsController {
   setUpDeleteEvent() {
     this.view.eventList.addEventListener("click", async (e) => {
       const elem = e.target;
-      if(elem.classList.contains("delete-event-btn")){
+      if (elem.classList.contains("delete-event-btn")) {
         const eventElem = elem.closest('tr');
         const deleteId = eventElem.getAttribute('id');
         await eventsAPIs.deleteEvent(deleteId);
