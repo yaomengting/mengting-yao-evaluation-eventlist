@@ -1,0 +1,11 @@
+.addEvent{
+  display: flex;
+  justify-content: center;
+}
+#addEventButton {
+  background-color: #008cba;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+}
