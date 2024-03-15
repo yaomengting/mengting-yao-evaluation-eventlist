@@ -90,6 +90,13 @@ class EventsController {
   }
 
   setUpCickEvent(){
+    this.view.addEventButton.addEventListener("click", async () => {
+      const newEventElement = document.createElement("tr");
+      newEventElement.innerHTML = `<td><input></td><td><button>Save</button></td>`;
+      this.view.eventList.appendChild(newEventElement);
+    })
+
+
     
   }
 }
