@@ -127,6 +127,16 @@ class EventsController {
   }
 
   setUpDeleteEvent() {
+    this.view.eventList.addEventListener("click", async (e) => {
+      const elem = e.target;
+      if(elem.classList.contains("delete-event-btn")){
+        const eventElem = elem.closest('tr');
+        const deleteId = eventElem.getAttribute('id');
+        await eventsAPIs.deleteEvent(deleteId);
+        this.model.deleteEvent(deleteId);
+        this.view.removeEvent(deleteId);
+      }
+    })
 
   }
 }
