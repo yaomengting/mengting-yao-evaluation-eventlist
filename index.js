@@ -5,8 +5,19 @@ const eventsAPIs = (function(){
     return fetch(API_URL).then((res) => res.json());
   }
 
+  async function addEvent(newEvent){
+    return fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newEvent),
+    }).then((res) => res.json());
+  }
+
   return {
-    getEvents
+    getEvents,
+    addEvent
   };
 
 })();
