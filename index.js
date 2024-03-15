@@ -63,6 +63,8 @@ class EventsView {
     eventElement.setAttribute("id", event.id);
     eventElement.innerHTML = `
     <td><span class="event-name-text">${event.eventName}</span></td>
+    <td>${event.startDate}</td>
+    <td>${event.endDate}</td>
     <td>
       <button class="edit-event-btn">Edit</button>
       <button class="save-event-btn" style="display: none;">Save</button>
@@ -128,15 +130,29 @@ class EventsController {
   setUpCickEvent() {
     this.view.addEventButton.addEventListener("click", async () => {
       const newEventElement = document.createElement("tr");
-      newEventElement.innerHTML = `<td><input class="new-event-name"></td><td><button class="save-new-event">Save</button></td>`;
+      newEventElement.innerHTML = `
+      <td><input class="new-event-name"></td
+      <td><input type="date" class="new-event-start-date"></td>
+      <td><input type="date" class="new-event-end-date"></td>
+      <td><button class="save-new-event">Save</button></td>
+      `;
       this.view.eventList.appendChild(newEventElement);
 
       const saveButton = newEventElement.querySelector(".save-new-event");
       saveButton.addEventListener("click", async () => {
-        const inputElement = newEventElement.querySelector(".new-event-name");
-        const eventName = inputElement.value.trim();
-        if (!eventName) return;
-        const newEvent = await eventsAPIs.addEvent({ eventName });
+        const eventNameInput = newEventElement.querySelector(".new-event-name");
+        const startDateInput = newEventElement.querySelector(".new-event-start-date");
+        const endDateInput = newEventElement.querySelector(".new-event-end-date");
+
+        const eventName = eventNameInput.value.trim();
+        const startDate = startDateInput.value;
+        const endDate = endDateInput.value;
+
+        if (!eventName || !startDate || !endDate) {
+          alert("Input Not Valid!");
+          return;
+        };
+        const newEvent = await eventsAPIs.addEvent({ eventName, startDate, endDate });
         this.model.addEvent(newEvent);
         this.view.renderNewEvent(newEvent);
         newEventElement.remove();
@@ -160,10 +176,10 @@ class EventsController {
 
   }
 
-  setUpEditEvent(){
+  setUpEditEvent() {
     this.view.eventList.addEventListener("click", async (e) => {
       const elem = e.target;
-      if(elem.classList.contains('edit-event-btn')){
+      if (elem.classList.contains('edit-event-btn')) {
         const eventElem = elem.closest("tr");
         const eventNameText = eventElem.querySelector('.event-name-text');
         const input = document.createElement('input');
@@ -171,20 +187,20 @@ class EventsController {
         eventNameText.parentNode.replaceChild(input, eventNameText);
         input.focus();
         eventElem.querySelector('.save-event-btn').style.display = '';
-        
+
       }
     })
   }
 
-  setUpSaveEvent(){
+  setUpSaveEvent() {
     this.view.eventList.addEventListener("click", async (e) => {
       const elem = e.target;
-      if(elem.classList.contains('save-event-btn')){
+      if (elem.classList.contains('save-event-btn')) {
         const eventElem = elem.closest("tr");
         const eventId = eventElem.getAttribute("id");
         const input = eventElem.querySelector("input");
         const updatedName = input.value.trim();
-        if(!updatedName)return;
+        if (!updatedName) return;
         await eventsAPIs.patchEvent(eventId, {
           eventName: updatedName
         })
