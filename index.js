@@ -62,7 +62,7 @@ class EventsView {
     eventElement.classList.add("event");
     eventElement.setAttribute("id", event.id);
     eventElement.innerHTML = `
-    <td><input value="${event.eventName}" readonly></td>
+    <td><span class="event-name-text">${event.eventName}</span></td>
     <td>
       <button class="edit-event-btn">Edit</button>
       <button class="save-event-btn" style="display: none;">Save</button>
