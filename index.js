@@ -89,8 +89,8 @@ class EventsController {
     this.view.renderEvents(events);
   }
 
-   (){
-
+  setUpCickEvent(){
+    
   }
 }
 
