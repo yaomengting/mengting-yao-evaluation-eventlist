@@ -20,8 +20,12 @@ table{
 
 .event{
   background-color:#e6e2d3;
+  
+  
 }
 
 td {
   text-align: center; 
+  border: 3px;
+  padding: 5px;
 }
