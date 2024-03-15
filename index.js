@@ -219,17 +219,47 @@ class EventsController {
       if (elem.classList.contains('save-event-btn')) {
         const eventElem = elem.closest("tr");
         const eventId = eventElem.getAttribute("id");
-        const input = eventElem.querySelector("input");
-        const updatedName = input.value.trim();
-        if (!updatedName) return;
+
+        const eventNameInput = eventElem.querySelector(".event-name-input");
+        const startDateInput = eventElem.querySelector(".start-date-input");
+        const endDateInput = eventElem.querySelector(".end-date-input");
+
+        const updatedName = eventNameInput ? eventNameInput.value.trim() : '';
+        const updatedStartDate = startDateInput ? startDateInput.value : '';
+        const updatedEndDate = endDateInput ? endDateInput.value : '';
+
+        if (!updatedName|| !updatedStartDate || !updatedEndDate) {
+          alert("Input Not Valid!");
+          return;
+        };
+
         await eventsAPIs.patchEvent(eventId, {
-          eventName: updatedName
+          eventName: updatedName,
+          startDate: updatedStartDate,
+          endDate: updatedEndDate
         })
-        const eventNameText = document.createElement('span');
-        eventNameText.className = 'event-name-text';
-        eventNameText.textContent = updatedName;
-        input.parentNode.replaceChild(eventNameText, input);
-        elem.style.display = 'none';
+
+        if(eventNameInput){
+          const eventNameText = document.createElement('span');
+          eventNameText.className = 'event-name-text';
+          eventNameText.textContent = updatedName;
+          eventNameInput.parentNode.replaceChild(eventNameText, eventNameInput);
+        }
+  
+        if(startDateInput && endDateInput){
+          const startDateText = document.createElement('span');
+          startDateText.className = 'start-date-text';
+          startDateText.textContent = updatedStartDate;
+          startDateInput.parentNode.replaceChild(startDateText, startDateInput);
+  
+          const endDateText = document.createElement('span');
+          endDateText.className = 'end-date-text';
+          endDateText.textContent = updatedEndDate;
+          endDateInput.parentNode.replaceChild(endDateText, endDateInput);
+        }
+
+        eventElem.querySelector('.save-event-btn').style.display = 'none';
+        eventElem.querySelector('.edit-event-btn').style.display = '';
       }
     })
   }
