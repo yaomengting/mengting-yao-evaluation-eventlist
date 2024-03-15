@@ -15,7 +15,7 @@ const eventsAPIs = (function () {
     }).then((res) => res.json());
   }
 
-  async function deleteEvent(id){
+  async function deleteEvent(id) {
     return fetch(`${API_URL}/${id}`, {
       method: "DELETE",
     }).then((res) => res.json());
@@ -35,10 +35,6 @@ class EventsView {
     this.eventList = document.querySelector(".event-list");
   }
 
-  // clearInput(){
-  //   this.
-  // }
-
   renderEvents(events) {
     this.eventList.innerHTML = "";
     events.forEach((event) => {
@@ -54,8 +50,12 @@ class EventsView {
     const eventElement = document.createElement("tr");
     eventElement.classList.add("event");
     eventElement.setAttribute("id", event.id);
-    eventElement.innerHTML = `<td><input value="${event.eventName}"></td>`;
+    eventElement.innerHTML = `<td><input value="${event.eventName}"></td><td><button class="delete-event-btn">Delete</button></td>`;
     return eventElement;
+  }
+
+  removeEvent(id) {
+    document.getElementById(id).remove();
   }
 }
 
@@ -76,6 +76,10 @@ class EventsModel {
   addEvent(newEvent) {
     this.#events.push(newEvent);
   }
+
+  deleteEvent(id) {
+    this.#events = this.#events.filter((event) => event.id !== id);
+  }
 }
 
 class EventsController {
@@ -92,6 +96,7 @@ class EventsController {
 
   setUpEvents() {
     this.setUpCickEvent();
+    this.setUpDeleteEvent();
   }
 
   async fetchEvents() {
@@ -118,6 +123,10 @@ class EventsController {
       })
     })
 
+
+  }
+
+  setUpDeleteEvent() {
 
   }
 }
