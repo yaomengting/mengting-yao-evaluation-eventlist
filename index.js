@@ -139,9 +139,8 @@ class EventsController {
   setUpCickEvent() {
     this.view.addEventButton.addEventListener("click", async () => {
       const newEventElement = document.createElement("tr");
-      // newEventElement.classList.add("new-event-row");
       newEventElement.innerHTML = `
-      <td><input class="new-event-name"></td
+      <td><input class="new-event-name"></td>
       <td><input type="date" class="new-event-start-date"></td>
       <td><input type="date" class="new-event-end-date"></td>
       <td><button class="save-new-event">Save</button></td>
